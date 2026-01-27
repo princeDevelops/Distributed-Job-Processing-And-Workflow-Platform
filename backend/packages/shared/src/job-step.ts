@@ -1,6 +1,6 @@
 import { JobStepStatus } from './enum';
 
-interface JobStep {
+export interface JobStep {
   id: string;
   jobId: string;
   name: string;

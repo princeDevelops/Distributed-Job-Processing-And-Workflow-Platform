@@ -1,7 +1,4 @@
-import { RetryConfig } from './retry';
-
 export interface CreateJobInput {
-  id: string;
-  retry: RetryConfig;
+  type: string;
   payload?: Record<string, unknown>;
 }

@@ -5,7 +5,7 @@ import { connectDB } from './api/config/db';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-async function startServer() {
+async function bootstrap() {
   try {
     // Connect to database first
     await connectDB();
@@ -20,4 +20,4 @@ async function startServer() {
   }
 }
 
-startServer();
+bootstrap();
