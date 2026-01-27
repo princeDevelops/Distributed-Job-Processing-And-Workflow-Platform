@@ -14,10 +14,12 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@backend/shared": "file:./packages/shared",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "@backend/shared": "file:./packages/shared"
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
