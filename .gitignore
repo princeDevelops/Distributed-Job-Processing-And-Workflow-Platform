@@ -9,6 +9,8 @@
 # Production
 **/dist/
 **/build/
+# TypeScript incremental build cache
+*.tsbuildinfo
 
 # Environment variables
 .env

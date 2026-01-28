@@ -1,5 +1,7 @@
+import { errorHandler } from './middleware/error-middleware';
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+import jobRoutes from './routes/job-routes';
 
 const app: Express = express();
 
@@ -9,17 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Welcome to Distributed Job Processing and Workflow Platform API',
-  });
-});
+app.use('/api/v1/jobs', jobRoutes);
 
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-  });
-});
-
+app.use(errorHandler);
 export default app;
