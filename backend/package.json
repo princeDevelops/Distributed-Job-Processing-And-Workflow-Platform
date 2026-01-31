@@ -14,9 +14,11 @@
   "type": "commonjs",
   "dependencies": {
     "@backend/shared": "file:./packages/shared",
+    "bullmq": "^5.67.2",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "ioredis": "^5.9.2",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.5"
   },

@@ -1,5 +1,6 @@
 import { CreateJobInput, JobStatus, RetryConfig } from '@backend/shared';
 import * as JobRepo from '../repositories/job-repository';
+import { jobQueue } from '../queue/job-queue';
 
 const DEFAULT_RETRY: RetryConfig = {
   maxAttempts: 3,
@@ -7,10 +8,26 @@ const DEFAULT_RETRY: RetryConfig = {
 };
 
 export async function createJob(input: CreateJobInput) {
-  return JobRepo.createJob({
+  const job = await JobRepo.createJob({
     type: input.type,
     maxAttempts: DEFAULT_RETRY.maxAttempts,
   });
+
+  await jobQueue.add(
+    'execute-job',
+    {
+      jobId: job._id,
+    },
+    {
+      attempts: DEFAULT_RETRY.maxAttempts,
+      backoff: {
+        type: 'exponential',
+        delay: DEFAULT_RETRY.backOffMs,
+      },
+    }
+  );
+
+  return job;
 }
 
 export async function cancelJob(jobId: string) {
