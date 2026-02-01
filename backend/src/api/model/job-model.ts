@@ -19,7 +19,7 @@ const JobSchema = new Schema<JobDocument>(
     status: { type: String, enum: Object.values(JobStatus), required: true },
     attempts: { type: Number, required: true },
     maxAttempts: { type: Number, required: true },
-    progress: { type: Number, required: true },
+    progress: { type: Number, required: true, default: 0 },
     errorMessage: { type: String },
     startedAt: { type: Date },
     finishedAt: { type: Date },

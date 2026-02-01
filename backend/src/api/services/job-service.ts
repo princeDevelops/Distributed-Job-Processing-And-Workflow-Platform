@@ -41,3 +41,7 @@ export async function getJob(jobId: string) {
 export async function listJobs() {
   return JobRepo.listJobs();
 }
+
+export async function updateJobProgress(jobId: string, progress: number) {
+  return JobRepo.updateJobProgress(jobId, progress);
+}

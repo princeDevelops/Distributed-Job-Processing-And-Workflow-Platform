@@ -9,16 +9,31 @@ new Worker(
   async (job) => {
     const { jobId } = job.data;
 
-    console.log('👷 Processing job:', jobId);
+    const currentAttempt = job.attemptsMade + 1;
+    const maxAttempts = job.opts.attempts ?? 1;
 
-    await JobRepo.updateJobStatus(jobId, JobStatus.RUNNING);
+    console.log(
+      `👷 Job ${jobId} started (attempt ${currentAttempt}/${maxAttempts})`
+    );
+
+    await JobRepo.markJobAttemptStart(jobId, currentAttempt);
 
     try {
       await executeJob(jobId);
-      await JobRepo.updateJobStatus(jobId, JobStatus.COMPLETED);
+      await JobRepo.markJobCompleted(jobId);
+      console.log(`✅ Job ${jobId} completed`);
     } catch (err: any) {
-      await JobRepo.updateJobStatus(jobId, JobStatus.FAILED, err.message);
-      throw err; 
+      const isFinalAttempt = currentAttempt >= maxAttempts;
+
+      console.error(`❌ Job ${jobId} failed (attempt ${currentAttempt})`, {
+        willRetry: !isFinalAttempt,
+      });
+
+      if (isFinalAttempt) {
+        await JobRepo.markJobFailure(jobId, err.message);
+      }
+
+      throw err;
     }
   },
   { connection: redis }
