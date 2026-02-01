@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend server for Distributed Job Processing and Workflow Platform",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "dev": "concurrently -k -n TYPE,RUNTIME -c blue,green \"tsc -b --watch\" \"nodemon dist/index.js\"",
+    "dev": "concurrently -k -n TYPE,API,WORKER -c blue,green,yellow \"tsc -b --watch\" \"nodemon dist/src/index.js\" \"nodemon dist/src/worker/index.js\"",
     "build": "tsc -b",
-    "start": "node dist/index.js"
+    "start": "node dist/src/index.js"
   },
   "keywords": [],
   "author": "",
